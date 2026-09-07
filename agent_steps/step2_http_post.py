@@ -18,7 +18,7 @@ import httpx
 # 并且自动加上请求头 Content-Type: application/json。
 # 这一步和前端 axios.post(url, data) 是完全对应的。
 payload = {
-    "name": "易文轩",
+    "name": "XXX",
     "message": "你好，我是一名前端开发，正在学 Python 转 Agent！",
 }
 
