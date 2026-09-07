@@ -1,0 +1,8 @@
+# 第一个月需要的依赖库
+# 安装：pip install -r requirements.txt
+
+httpx           # HTTP 客户端（替代 requests，支持异步）——step1~4、7、8
+fastapi         # Web 框架，把代码变成接口——step6、8
+uvicorn         # FastAPI 的服务器（负责真正跑起来）——step6、8
+pydantic        # 数据校验——step5、8（fastapi 也依赖它）
+python-dotenv   # 读取 .env 文件里的配置（API Key）——step3、4、8
