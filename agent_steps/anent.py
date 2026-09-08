@@ -1,18 +1,34 @@
+import os
 import httpx
-def get_JSON():
-    res = httpx.get(
-        'https://api.open-meteo.com/v1/forecast?latitude=30.59&longitude=114.31&current_weather=true')
-    res.json()
+from dotenv import load_dotenv
+from pathlib import Path
 
+load_dotenv(Path(__file__).parent / ".env")
+api_key = os.getenv("LLM_API_KEY")
+base_url = os.getenv("LLM_BASE_URL", "https://api.deepseek.com")
+model = os.getenv("LLM_MODEL", "deepseek-v4-flash")
 
-def POST_JSON():
-    payload = {
-        "name": "XXX",
-        "message": "你好，我是一名前端开发，正在学 Python 转 Agent！",
-    }
-    res = httpx.post("https://httpbin.org/post", json=payload, timeout=30)
-    data =res.json()
-    print("",  data["headers"].get("Content-Type"))
-    
-    
-POST_JSON()
+if not api_key:
+    print("api_key 为空")
+    exit(1)
+
+payload = {
+    "model": model,
+    "messages": [
+        {"role": "system", "content": "你是一个耐心的 Python 学习助手，回答要简洁、给例子。"},
+        {"role": "user", "content": "用一句话说明：什么是 AI Agent？"},
+    ],
+}
+
+headers = {"Authorization": f"Bearer {api_key}"}
+
+resp = httpx.post(f"{base_url}/chat/completions",
+                  json=payload, headers=headers, timeout=60)
+
+print("状态码:", resp.status_code)
+
+if resp.status_code != 200:
+    print("请求失败", resp.text)
+    exit(1)
+data = resp.json()
+print("返回内容:", data)
