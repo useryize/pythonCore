@@ -3,8 +3,10 @@ import httpx
 import json
 from dotenv import load_dotenv
 from pathlib import Path
-
 from pydantic import BaseModel, Field
+
+from fastapi import FastAPI
+import uvicorn
 
 
 def main():
@@ -61,5 +63,20 @@ def modal_seint():
     print("天数:", plan.days)
 
 
+def getWebApp():
+    app = FastAPI(title='webView:')
+
+    @app.get('/')
+    def hello():
+        return {"name": "web"}
+
+    @app.get('/add')
+    def add(a: int, b: int):
+        return {"res": a + b}
+    return app
+
+
 if __name__ == "__main__":
-    modal_seint()
+    app = getWebApp()
+    # uvicorn.run(app, host='127.0.0.1', port=8787, reload=True)
+    uvicorn.run(app, host='127.0.0.1', port=8787)
