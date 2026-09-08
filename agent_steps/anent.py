@@ -8,6 +8,8 @@ from pydantic import BaseModel, Field
 from fastapi import FastAPI
 import uvicorn
 
+import asyncio
+
 
 def main():
 
@@ -53,6 +55,8 @@ def modal_seint():
         name: str
         days: int = Field(ge=1, le=30)
     json = '{"name": "FastAPI", "days": 3}'
+    json = '{"name": "FastAPI", "day2": 2}'
+    json = '{"name": "FastAPI", "day3": 1}'
     try:
         plan = StudyPlan.model_validate_json(json)
     except ValueError as e:
@@ -75,8 +79,30 @@ def getWebApp():
         return {"res": a + b}
     return app
 
+# 异步
+
+
+def asyncMain():
+    async def fetch(client, name, delay):
+        print(f"{name}开始：，预计{delay}秒")
+        await asyncio.sleep(delay)
+        print(f"{name}完成")
+        return f"{name}完成"
+
+    async def fun():
+        async with httpx.AsyncClient() as client:
+            res = await asyncio.gather(
+                fetch(client, "查数据", 3),
+                fetch(client, "查资料", 2),
+                fetch(client, "查天气", 1)
+            )
+        print("全部查完:", res)
+    asyncio.run(fun())
+
 
 if __name__ == "__main__":
-    app = getWebApp()
-    # uvicorn.run(app, host='127.0.0.1', port=8787, reload=True)
-    uvicorn.run(app, host='127.0.0.1', port=8787)
+    # app = getWebApp()
+    # # uvicorn.run(app, host='127.0.0.1', port=8787, reload=True)
+    # uvicorn.run(app, host='127.0.0.1', port=8787)
+
+    asyncMain()
