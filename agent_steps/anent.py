@@ -1,5 +1,6 @@
 import os
 import httpx
+import json
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -13,22 +14,28 @@ if not api_key:
     exit(1)
 
 payload = {
+    "thinking": {
+        "type": "disabled"
+    },
     "model": model,
     "messages": [
-        {"role": "system", "content": "你是一个耐心的 Python 学习助手，回答要简洁、给例子。"},
-        {"role": "user", "content": "用一句话说明：什么是 AI Agent？"},
+        {"role": "user", "content": "你好"},
     ],
+    "stream": True,
 }
 
 headers = {"Authorization": f"Bearer {api_key}"}
 
-resp = httpx.post(f"{base_url}/chat/completions",
-                  json=payload, headers=headers, timeout=60)
+with httpx.stream("post", f"{base_url}/chat/completions",
+                  json=payload, headers=headers, timeout=120) as resp:
 
-print("状态码:", resp.status_code)
-
-if resp.status_code != 200:
-    print("请求失败", resp.text)
-    exit(1)
-data = resp.json()
-print("返回内容:", data)
+    for chunk in resp.iter_lines():
+        if not chunk or not chunk.startswith("data:"):
+            continue
+        data = chunk[len('data:'):].strip()
+        if data == "[DONE]":
+            break
+        obj = json.loads(data)
+        text = obj["choices"][0]["delta"].get("content", "")
+        print(text, end="", flush=True)
+print()
