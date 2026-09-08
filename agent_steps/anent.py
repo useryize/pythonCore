@@ -46,12 +46,10 @@ def main():
     print()
 
 
-class StudyPlan(BaseModel):
-    name: str
-    days: int = Field(ge=1, le=30)
-
-
 def modal_seint():
+    class StudyPlan(BaseModel):
+        name: str
+        days: int = Field(ge=1, le=30)
     json = '{"name": "FastAPI", "days": 3}'
     try:
         plan = StudyPlan.model_validate_json(json)
