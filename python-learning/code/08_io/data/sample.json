@@ -1,0 +1,87 @@
+{
+  "company": {
+    "name": "示例科技有限公司",
+    "founded_year": 2015,
+    "employees_count": 200,
+    "industry": "软件与信息技术服务"
+  },
+  "departments": [
+    {
+      "id": "tech",
+      "name": "技术部",
+      "manager": "王强",
+      "budget": 5000000,
+      "projects": [
+        {
+          "name": "订单中心重构",
+          "status": "in_progress",
+          "progress": 0.65,
+          "members": ["赵磊", "张伟", "王强"],
+          "started_at": "2025-03-01",
+          "tags": ["重构", "核心系统"]
+        },
+        {
+          "name": "移动端 App 2.0",
+          "status": "done",
+          "progress": 1.0,
+          "members": ["吴倩", "朱琳"],
+          "started_at": "2024-08-15",
+          "finished_at": "2025-01-20",
+          "tags": ["移动端", "iOS", "Android"]
+        }
+      ]
+    },
+    {
+      "id": "market",
+      "name": "市场部",
+      "manager": "李娜",
+      "budget": 2000000,
+      "projects": [
+        {
+          "name": "品牌升级campaign",
+          "status": "in_progress",
+          "progress": 0.3,
+          "members": ["李娜", "孙梅", "韩雪"],
+          "started_at": "2025-05-10",
+          "tags": ["品牌", "推广"]
+        }
+      ]
+    },
+    {
+      "id": "hr",
+      "name": "人事部",
+      "manager": "刘洋",
+      "budget": 800000,
+      "projects": [
+        {
+          "name": "人才梯队建设",
+          "status": "planning",
+          "progress": 0.0,
+          "members": ["刘洋", "冯丽", "胡军"],
+          "started_at": "2025-07-01",
+          "tags": ["人才", "培训"]
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "debug": false,
+    "max_retry": 3,
+    "timeout_seconds": 30,
+    "allowed_origins": [
+      "https://example.com",
+      "https://www.example.com"
+    ],
+    "feature_flags": {
+      "new_dashboard": true,
+      "dark_mode": true,
+      "beta_export": false
+    }
+  },
+  "metadata": {
+    "version": 3,
+    "generated_at": "2026-01-15T10:30:00+08:00",
+    "note": "包含中文、嵌套结构、布尔值、null 值的测试数据"
+  },
+  "null_field": null
+}
